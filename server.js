@@ -7,6 +7,8 @@ const expressLayouts = require('express-ejs-layouts')
 const path = require('path')
 const PORT = process.env.PORT || 3030 ; 
 const indexRoute = require('./routes/index')
+const authorRoute = require("./routes/authors");
+
 
 
 app.set('view engine', 'ejs')
@@ -14,6 +16,8 @@ app.set('views', path.join(__dirname ,'views'))
 app.set('layout', 'layouts/layout')
 app.use(expressLayouts)
 app.use(express.static('public'))
+app.use(express.urlencoded({ limit: "10mb", extended: false }));
+
 
 
 
@@ -35,6 +39,7 @@ db.once("open", () => {
 
 //Routes
 app.use('/', indexRoute)
+app.use("/authors", authorRoute);
 
 app.listen(PORT, () => { 
     console.log(`Server is currently on ${PORT}`)
